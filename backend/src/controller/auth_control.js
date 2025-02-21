@@ -1,4 +1,5 @@
-import User from "../models/user_model";
+import { generateToken } from "../lib/utils.js";
+import User from "../models/user_model.js";
 import bcrypt from "bcryptjs";
 export const signup = async (req, res)=>{
     try {
@@ -19,6 +20,8 @@ export const signup = async (req, res)=>{
             passwor: hashedPassword,
         }); 
         if (newUser) {
+            generateToken(newUser._id, res);
+            await newUser.save();
             
         } else {
             
